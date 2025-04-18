@@ -40,18 +40,20 @@ body {
   font-size: small;
   color: #333333;
   box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 
-.chat-wrapper textarea:hover {
+.chat-wrapper textarea {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chat-wrapper textarea:hover,
+.chat-wrapper textarea:focus {
+  transform: scale(0.99);
   box-shadow: none;
 }
 
-.chat-wrapper textarea:focus, .chat-wrapper textarea:not(:placeholder-shown) {
-  box-shadow: none;
-}
-
-.chat-wrapper textarea:not(:focus):not(:hover):not(:placeholder-shown) {
+.chat-wrapper textarea:not(:hover):not(:focus) {
   box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
@@ -68,6 +70,10 @@ body {
   transition: transform 0.2s ease;
 }
 
-.chat-wrapper button:active {
+.chat-wrapper button:hover:not(:disabled) {
   transform: scale(0.95);
+}
+
+.chat-wrapper button:active:not(:disabled) {
+  transform: scale(0.90);
 }
