@@ -5,6 +5,21 @@ const buttonIcon = button.querySelector('i');
 
 let initialTop = null;
 
+const metaPrompt = `
+You are a world-class AI prompt engineer.
+
+Rewrite the following prompt using advanced prompt engineering principles. Your improved prompt must include the following:
+
+- A clearly defined role or persona for the AI (e.g., "You are a professional chef...")
+- Context or background information needed to complete the task effectively
+- A specific, structured instruction that clearly defines what the AI should do
+- An expected format or style for the output, if applicable
+
+Do NOT simply reword or expand the original. Apply deliberate priming to elevate prompt quality. Do NOT include any explanations, notes, or formatting symbols (like asterisks or markdown). Only output the fully rewritten and improved prompt text.
+
+Original Prompt:
+`;
+
 function setInitialPosition() {
   if (!initialTop) {
     const rect = chatWrapper.getBoundingClientRect();
@@ -44,7 +59,7 @@ button.addEventListener('click', async () => {
   button.disabled = true;
   
   try {
-    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=KEY_GOES_HERE", {
+    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=KEY_GOES_HERE", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -53,7 +68,7 @@ button.addEventListener('click', async () => {
         contents: [
           {
             role: "user",
-            parts: [{ text: prompt }]
+            parts: [{ text: metaPrompt + prompt }]
           }
         ]
       })
