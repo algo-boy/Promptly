@@ -44,30 +44,36 @@ button.addEventListener('click', async () => {
   button.disabled = true;
   
   try {
-    const response = await fetch("https://api.openai.com/v1/responses", {
+    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBLMWpQSvLXMjDdk9OLSH0njxPlVHOq1DA", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer KEY-GOES-HERE"
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        model: "gpt-4.1",
-        input: prompt
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: prompt }]
+          }
+        ]
       })
     });
     
     const data = await response.json();
     
-    if (data.output_text) {
-      textarea.value = data.output_text;
+    if (
+      data.candidates &&
+      data.candidates.length > 0 &&
+      data.candidates[0].content &&
+      data.candidates[0].content.parts &&
+      data.candidates[0].content.parts.length > 0 &&
+      data.candidates[0].content.parts[0].text
+    ) {
+      textarea.value = data.candidates[0].content.parts[0].text;
     } else {
-      // textarea.value = "Something went wrong: " + JSON.stringify(data);
-      textarea.value = `You are a world-class academic essay writer with expertise in global economics and international relations. Your goal is to educate university students on complex topics in a clear, engaging, and well-organized way.
-      
-Write a comprehensive essay on globalization. Begin by defining the term and explaining its historical development. Discuss the key forces driving globalization, such as technological advancement, international trade, and human migration. Explore both the positive and negative effects on economies, cultures, and the environment, using relevant real-world examples. Finally, provide a thoughtful conclusion that analyzes whether globalization is ultimately beneficial or detrimental in the modern era.`
-      
-      adjustHeight();
+      textarea.value = "Error: Unexpected response format.";
     }
+    adjustHeight();
   } catch (error) {
     textarea.value = "Error occurred: " + error.message;
     
