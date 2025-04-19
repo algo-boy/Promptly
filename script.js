@@ -44,7 +44,7 @@ button.addEventListener('click', async () => {
   button.disabled = true;
   
   try {
-    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=AIzaSyBLMWpQSvLXMjDdk9OLSH0njxPlVHOq1DA", {
+    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=KEY_GOES_HERE", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
