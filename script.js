@@ -1,7 +1,7 @@
-const textarea = document.getElementById('prompt-textarea');
-const chatWrapper = document.querySelector('.chat-wrapper');
-const button = document.querySelector('.chat-wrapper button');
-const buttonIcon = button.querySelector('i');
+const promptContainer = document.getElementById('prompt-container');
+const composerForm = document.getElementById('composer');
+const button = document.getElementById('send-button');
+const buttonIcon = document.getElementById('button-icon');
 
 let initialTop = null;
 
@@ -22,44 +22,49 @@ Original Prompt:
 
 function setInitialPosition() {
   if (!initialTop) {
-    const rect = chatWrapper.getBoundingClientRect();
+    const rect = composerForm.getBoundingClientRect();
     initialTop = rect.top;
-    chatWrapper.style.top = initialTop + 'px';
-    chatWrapper.style.transform = 'translateX(-50%)';
+    composerForm.style.top = initialTop + 'px';
   }
 }
 
 function adjustHeight() {
   setInitialPosition();
-  textarea.style.height = 'auto';
-  textarea.style.height = `${textarea.scrollHeight}px`;
+  promptContainer.style.height = 'auto';
+  promptContainer.style.height = `${promptContainer.scrollHeight}px`;
 }
 
-textarea.addEventListener('input', adjustHeight);
+promptContainer.addEventListener('input', adjustHeight);
+
 window.addEventListener('resize', function() {
   initialTop = null;
   setInitialPosition();
   adjustHeight();
 });
+
 window.addEventListener('load', function() {
   setInitialPosition();
   adjustHeight();
 });
-textarea.addEventListener('focus', adjustHeight);
+
+promptContainer.addEventListener('focus', adjustHeight);
+
 setInitialPosition();
 adjustHeight();
 
-button.addEventListener('click', async () => {
-  const prompt = textarea.value;
+composerForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
   
-  textarea.style.color = 'rgba(0, 0, 0, 0)';
-  textarea.setAttribute('spellcheck', 'false');
+  const prompt = promptContainer.value;
+  
+  promptContainer.style.color = 'rgba(0, 0, 0, 0)';
+  promptContainer.setAttribute('spellcheck', 'false');
   
   buttonIcon.classList.add('fa-beat-fade');
   button.disabled = true;
   
   try {
-    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=KEY_GOES_HERE", {
+    const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=AIzaSyBLMWpQSvLXMjDdk9OLSH0njxPlVHOq1DA", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -84,18 +89,18 @@ button.addEventListener('click', async () => {
       data.candidates[0].content.parts.length > 0 &&
       data.candidates[0].content.parts[0].text
     ) {
-      textarea.value = data.candidates[0].content.parts[0].text;
+      promptContainer.value = data.candidates[0].content.parts[0].text;
     } else {
-      textarea.value = "Error: Unexpected response format.";
+      promptContainer.value = "Error: Unexpected response format.";
     }
     adjustHeight();
   } catch (error) {
-    textarea.value = "Error occurred: " + error.message;
+    promptContainer.value = "Error occurred: " + error.message;
     
     adjustHeight();
   } finally {
-    textarea.style.color = 'rgba(0, 0, 0, 1)';
-    textarea.setAttribute('spellcheck', 'true');
+    promptContainer.style.color = 'rgba(0, 0, 0, 1)';
+    promptContainer.setAttribute('spellcheck', 'true');
     
     buttonIcon.classList.remove('fa-beat-fade');
     button.disabled = false;
