@@ -5,90 +5,112 @@
 }
 
 body {
-  height: 100vh;
-  padding-bottom: 50px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   background-color: whitesmoke;
 }
 
-.chat-wrapper {
-  position: absolute;
+main {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#composer {
   width: 80%;
   max-width: 500px;
+  gap: 10px;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding-bottom: 50px;
-  margin-top: auto;
 }
 
-#prompt-textarea {
+#prompt-container {
   width: 100%;
   min-height: 50px;
   padding: 10px;
   border: none;
   border-radius: 10px;
-  resize: none;
-  overflow: hidden;
-  outline: none;
   font-family: "Roboto", sans-serif;
   font-size: small;
   color: rgba(51, 51, 51, 1);  
+  resize: none;
+  overflow: hidden;
+  outline: none;
+  background-color: snow;
   box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease, transform 0.2s ease, color 2s ease;
 }
 
-#prompt-textarea:hover,
-#prompt-textarea:focus {
+#prompt-container:hover, #prompt-container:focus {
   transform: scale(0.99);
   box-shadow: none;
 }
 
-#prompt-textarea:not(:hover):not(:focus) {
+#prompt-container:not(:hover):not(:focus) {
   box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
-.chat-wrapper button {
+#send-button {
   width: 40px;
   height: 40px;
-  display: block;
-  margin: 10px 0 0 auto;
+  align-self: flex-end;
   border: none;
   border-radius: 10px;
   background-color: #333333;
-  cursor: pointer;
-  box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease;
 }
 
-.chat-wrapper button:hover:not(:disabled) {
+#send-button:hover:not(:disabled) {
   transform: scale(0.95);
 }
 
-.chat-wrapper button:active:not(:disabled) {
+#send-button:active:not(:disabled) {
   transform: scale(0.90);
 }
 
-.logo {
-  position: absolute;
-  top: 150px;
-  left: 50%;
-  transform: translateX(-50%);
+.branding {
   text-align: center;
   font-family: "Nunito", sans-serif;
-  color: #333333;
-  line-height: 25px;
+  line-height: 300%;
 }
 
-.period {
+.logo {
+  color: #333333;
+  font-size: 64px;
+}
+
+.dot {
   color: orangered;
 }
 
-.logo h4 {
-  color: #808080;
+.tagline {
+  font-weight: lighter;
+  color: #666666;
+}
+
+footer {
+  width: 100%;
+  padding: 20px 0;
+  border-radius: 10px 10px 0 0;
+  background-color: #333333;
+
+}
+
+.signature {
+  text-align: center;
+  font-family: "Roboto", sans-serif;
+  font-size: small;
+  color: gray;
+}
+
+.author {
+  color: snow;
+  text-decoration: none;
 }
